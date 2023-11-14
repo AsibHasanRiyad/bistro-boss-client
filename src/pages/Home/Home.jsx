@@ -4,10 +4,15 @@ import bg from '../../assets/home/chef-service.jpg'
 import PopularMenu from "./PopularMenu";
 import Call from "../../components/Call";
 import Featured from "../../components/Featured";
+import Testimonial from "../../components/Testimonial";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   return (
-    <div className=" overflow-hidden mx-4 lg:mx-0">
+    <div className=" overflow-hidden">
+      <Helmet>
+        <title>Bistro | Home</title>
+      </Helmet>
       <Banner></Banner>
       <Category></Category>
 
@@ -31,6 +36,7 @@ const Home = () => {
       <PopularMenu></PopularMenu>
       <Call></Call>
       <Featured></Featured>
+      <Testimonial></Testimonial>
     </div>
   );
 };

@@ -1,24 +1,28 @@
+import { NavLink } from "react-router-dom";
+import '../css/nav.css'
+
 const NavBar = () => {
   const navOptions = (
     <>
       <li>
-        <a>Item 1</a>
-      </li>
-      <li tabIndex={0}>
-        <details>
-          <summary>Parent</summary>
-          <ul className="p-2">
-            <li>
-              <a>Submenu 1</a>
-            </li>
-            <li>
-              <a>Submenu 2</a>
-            </li>
-          </ul>
-        </details>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to={"/"}
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <a>Item 3</a>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to={"/menu"}
+        >
+          Our Menu
+        </NavLink>
       </li>
     </>
   );
@@ -26,7 +30,7 @@ const NavBar = () => {
     <div className="navbar bg-black text-white fixed z-10 max-w-screen-xl bg-opacity-50">
       <div className="navbar-start">
         <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+          <label tabIndex={0} className=" lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -50,12 +54,16 @@ const NavBar = () => {
           </ul>
         </div>
         <div className=" font-cinzel font-bold">
-          <h1 className=" text-xs md:text-2xl lg:text-3xl font-black">BISTRO BOSS</h1>
-          <h1 className=" text-[10px] md:text-lg lg:text-2xl tracking-widest">Restaurant</h1>
+          <h1 className=" text-xs md:text-2xl lg:text-3xl font-black">
+            BISTRO BOSS
+          </h1>
+          <h1 className=" text-[10px] md:text-lg lg:text-2xl tracking-widest">
+            Restaurant
+          </h1>
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+        <ul className="flex gap-5 px-1">{navOptions}</ul>
       </div>
       <div className="navbar-end">
         <a className="btn btn-sm md:btn-md">Button</a>

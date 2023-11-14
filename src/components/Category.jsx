@@ -13,14 +13,13 @@ import SectionTitle from "./SectionTitle";
 export default function Category() {
   return (
     <div className=" mt-4 mb-8 md:mt-12 md:mb-24">
-        <SectionTitle heading={'ORDER ONLINE'} subHeading={'From 11:00am to 10:00pm'}></SectionTitle>
+       <div className=" py-10">
+       <SectionTitle heading={'ORDER ONLINE'} subHeading={'From 11:00am to 10:00pm'}></SectionTitle>
+       </div>
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
         centeredSlides={true}
-        // pagination={{
-        //   clickable: true,
-        // }}
         modules={[Pagination]}
         className="mySwiper"
       >
