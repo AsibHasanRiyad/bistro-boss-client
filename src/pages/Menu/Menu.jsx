@@ -15,7 +15,7 @@ const Menu = () => {
     const soup = menu.filter(pop => pop.category === 'soup');
     const salad = menu.filter(pop => pop.category === 'salad');
     const offered = menu.filter(pop => pop.category === 'offered');
-    console.log(menu, dessert, pizza);
+    // console.log(menu, dessert, pizza);
   return (
     <div className="">
       <Helmet>
@@ -26,14 +26,18 @@ const Menu = () => {
         <SectionTitle heading="TODAY'S OFFER" subHeading="Don't Miss"></SectionTitle>
         </div>
         <MenuCategory item={offered} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        {/* dessert */}
         <Hero image={desertBg} button={'ORDER YOUR FAVOURITE FOOD'} title={'Desserts'} subTitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></Hero>
-        <MenuCategory item={dessert} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        <MenuCategory item={dessert} title={'dessert'} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        {/* pizza */}
         <Hero image={pizzaBg} title={'Pizza'} subTitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.' }></Hero>
-        <MenuCategory item={pizza} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        <MenuCategory item={pizza} title={'pizza'}  button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+          {/* salad */}
         <Hero image={saladBg} title={'Salad'} subTitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></Hero>
-        <MenuCategory item={salad} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        <MenuCategory item={salad} title={'salad'} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        {/* soup */}
         <Hero image={soupBg} title={'Soup'} subTitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></Hero>
-        <MenuCategory item={soup} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
+        <MenuCategory item={soup} title={'soup'} button={'ORDER YOUR FAVOURITE FOOD'} ></MenuCategory>
     </div>
   );
 };
