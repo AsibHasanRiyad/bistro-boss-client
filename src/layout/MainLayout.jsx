@@ -1,17 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
-
-
 const MainLayout = () => {
-    return (
-        <div>
-            <NavBar></NavBar>
-            <Outlet></Outlet>
-            <Footer></Footer>
-        </div>
-    );
+  const location = useLocation();
+  const noHeaderFooter = location.pathname.includes("login");
+  return (
+    <div>
+      {noHeaderFooter || <NavBar></NavBar>}
+      <Outlet></Outlet>
+      {noHeaderFooter || <Footer></Footer>}
+    </div>
+  );
 };
 
 export default MainLayout;

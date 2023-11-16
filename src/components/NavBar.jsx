@@ -34,6 +34,16 @@ const NavBar = () => {
           Order
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to={"/login"}
+        >
+          Login
+        </NavLink>
+      </li>
     </>
   );
   return (
