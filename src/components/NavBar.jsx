@@ -8,18 +8,18 @@ const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const handelLogOut = () => {
     logOut()
-    .then(() =>{
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "User Log Out",
-        showConfirmButton: false,
-        timer: 1500
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "User Log Out",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
   };
   const navOptions = (
     <>
@@ -51,6 +51,16 @@ const NavBar = () => {
           to={"/order/salad"}
         >
           Order
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to={"/secret"}
+        >
+          Secret
         </NavLink>
       </li>
 
@@ -125,8 +135,31 @@ const NavBar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-5 px-1">{navOptions}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn btn-sm md:btn-md">Button</a>
+      <div className="dropdown dropdown-end">
+        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+          <div className="w-10 rounded-full">
+            <img
+              src={user?.photoURL}
+            />
+          </div>
+        </label>
+        <ul
+          tabIndex={0}
+          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 navbar-end"
+        >
+          <li>
+            <a className="justify-between">
+              Profile
+              <span className="badge">New</span>
+            </a>
+          </li>
+          <li>
+            <p>{user?.displayName}</p>
+          </li>
+          <li>
+           <img src={user?.photoURL} alt="" />
+          </li>
+        </ul>
       </div>
     </div>
   );

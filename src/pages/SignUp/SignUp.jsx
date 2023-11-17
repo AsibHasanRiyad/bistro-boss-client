@@ -11,17 +11,39 @@ import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const SignUp = () => {
-    const {createUser} = useContext(AuthContext)
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
     createUser(data.email, data.password)
-  }
+    .then(result =>{
+        console.log( result.user)
+        updateUserProfile(data.name, data.photoURL)
+        .then(() =>{
+            console.log('User Is created and updated');
+            reset()
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "SignUp Successful",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              navigate(from, { replace: true });
+        })
+    })
+  };
   //   const [disabled, setDisabled] = useState(true);
   //   const captchaRef = useRef(null);
   //   useEffect(() => {
@@ -49,8 +71,8 @@ const SignUp = () => {
         className="hero-content flex-col lg:flex-row shadow-xl shadow-gray-500"
       >
         <Helmet>
-        <title>Bistro | SignUp</title>
-      </Helmet>
+          <title>Bistro | SignUp</title>
+        </Helmet>
         <div className="text-center lg:text-left">
           <img src={logImg} alt="" />
         </div>
@@ -68,6 +90,20 @@ const SignUp = () => {
                 className="input rounded-sm"
               />
               {errors.name && (
+                <span className=" text-red-500 mt-2">Name is required</span>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">photoURL</span>
+              </label>
+              <input
+                type="text"
+                placeholder="photoURL"
+                {...register("photoURL", { required: true })}
+                className="input rounded-sm"
+              />
+              {errors.photoURL && (
                 <span className=" text-red-500 mt-2">Name is required</span>
               )}
             </div>
@@ -147,6 +183,15 @@ const SignUp = () => {
                 className="btn btn-primary bg-[#D1A054] hover:bg-[#c28d3e]  text-white border-none"
                 value="Sign Up"
               />
+            </div>
+            <div className=" text-center">
+              <p className=" text-[#e9b86f] font-medium">
+                Already Registered?{" "}
+                <span className=" font-bold">
+                  <Link to={"/login"}>Go to login</Link>{" "}
+                </span>
+              </p>
+              <p className=" text-lg my-2">Or sign in with</p>
             </div>
           </form>
         </div>

@@ -8,10 +8,14 @@ import {
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/";
   const [disabled, setDisabled] = useState(true);
   const captchaRef = useRef(null);
-  const {singIn} = useContext(AuthContext)
+  const { singIn } = useContext(AuthContext);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -21,17 +25,17 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
-    singIn(email, password)
-    .then(data =>{
+    singIn(email, password).then((data) => {
       console.log(data.user);
       Swal.fire({
         position: "top-end",
         icon: "success",
         title: "Log in Successful",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-    })
+      navigate(from, { replace: true });
+    });
   };
 
   const handelCaptcha = () => {
@@ -118,6 +122,15 @@ const Login = () => {
               >
                 Sign In
               </button>
+            </div>
+            <div className=" text-center">
+              <p className=" text-[#e9b86f] font-medium">
+                New here?{" "}
+                <span className=" font-bold">
+                  <Link to={"/signup"}>Create a New Account</Link>{" "}
+                </span>
+              </p>
+              <p className=" text-lg my-2">Or sign in with</p>
             </div>
           </form>
         </div>

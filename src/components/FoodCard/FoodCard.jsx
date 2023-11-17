@@ -1,8 +1,8 @@
 const FoodCard = ({ items }) => {
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
+    <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 my-10">
       {items.map((item) => (
-        <div key={item._id} className="card w-96 bg-[#F3F3F3] rounded-none">
+        <div key={item._id} className="card w-96 mx-auto bg-[#F3F3F3] rounded-none">
           <figure>
             <img className=" w-full" src={item.image} alt="Food" />
           </figure>
