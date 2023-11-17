@@ -1,7 +1,26 @@
 import { NavLink } from "react-router-dom";
-import '../css/nav.css'
+import "../css/nav.css";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const handelLogOut = () => {
+    logOut()
+    .then(() =>{
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "User Log Out",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
   const navOptions = (
     <>
       <li>
@@ -34,16 +53,37 @@ const NavBar = () => {
           Order
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-          to={"/login"}
-        >
-          Login
-        </NavLink>
-      </li>
+
+      {user ? (
+        <>
+          <li>
+            <button onClick={handelLogOut}> LogOut</button>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+              to={"/login"}
+            >
+              Login
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+              to={"/signup"}
+            >
+              SignUp
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (

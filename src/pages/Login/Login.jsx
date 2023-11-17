@@ -5,10 +5,13 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
   const captchaRef = useRef(null);
+  const {singIn} = useContext(AuthContext)
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -18,6 +21,17 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    singIn(email, password)
+    .then(data =>{
+      console.log(data.user);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Log in Successful",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    })
   };
 
   const handelCaptcha = () => {
@@ -34,6 +48,9 @@ const Login = () => {
       }}
       className="hero min-h-screen"
     >
+      <helmet>
+        <title>Bistro | Login</title>
+      </helmet>
       <div
         style={{
           backgroundImage: `url(${bgImg})`,
@@ -94,6 +111,7 @@ const Login = () => {
             </button> */}
             <div className="form-control">
               <button
+                onSubmit={handelLogin}
                 disabled={disabled}
                 type="submit"
                 className="btn btn-primary bg-[#D1A054] text-white border-none"
