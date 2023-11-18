@@ -52,9 +52,6 @@ const Login = () => {
       }}
       className="hero min-h-screen"
     >
-      <helmet>
-        <title>Bistro | Login</title>
-      </helmet>
       <div
         style={{
           backgroundImage: `url(${bgImg})`,

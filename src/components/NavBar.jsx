@@ -1,11 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../css/nav.css";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
+import { FaCartShopping } from "react-icons/fa6";
+import useCart from "../hooks/useCart";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
   const handelLogOut = () => {
     logOut()
       .then(() => {
@@ -22,7 +25,7 @@ const NavBar = () => {
       });
   };
   const navOptions = (
-    <>
+    <div className=" lg:flex justify-center items-center gap-5">
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
@@ -66,9 +69,38 @@ const NavBar = () => {
 
       {user ? (
         <>
-          <li>
-            <button onClick={handelLogOut}> LogOut</button>
-          </li>
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img src={user?.photoURL} />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white text-black rounded-box w-52 navbar-end"
+            >
+              {" "}
+              <li>
+                <img
+                  className=" rounded-md w-24 h-24 mx-auto border-2 border-red-500"
+                  src={user?.photoURL}
+                  alt=""
+                />
+              </li>
+              <li>
+                <a className="justify-between">
+                  {user.email}
+                  <span className="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <p>{user?.displayName}</p>
+              </li>
+              <li>
+                <button onClick={handelLogOut}> LogOut</button>
+              </li>
+            </ul>
+          </div>
         </>
       ) : (
         <>
@@ -82,19 +114,9 @@ const NavBar = () => {
               Login
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to={"/signup"}
-            >
-              SignUp
-            </NavLink>
-          </li>
         </>
       )}
-    </>
+    </div>
   );
   return (
     <div className="navbar bg-black text-white fixed z-10 max-w-screen-xl bg-opacity-50">
@@ -118,7 +140,7 @@ const NavBar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-red-500 rounded-box w-52"
           >
             {navOptions}
           </ul>
@@ -135,31 +157,15 @@ const NavBar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-5 px-1">{navOptions}</ul>
       </div>
-      <div className="dropdown dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img
-              src={user?.photoURL}
-            />
-          </div>
-        </label>
-        <ul
-          tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 navbar-end"
-        >
-          <li>
-            <a className="justify-between">
-              Profile
-              <span className="badge">New</span>
-            </a>
-          </li>
-          <li>
-            <p>{user?.displayName}</p>
-          </li>
-          <li>
-           <img src={user?.photoURL} alt="" />
-          </li>
-        </ul>
+      <div className="navbar-end hidden lg:flex">
+        <Link to={'dashboard/cart'}>
+          <button className=" border-none flex items-start">
+            <FaCartShopping className=" text-4xl text-white"></FaCartShopping>
+            <div className="badge text-xs w-5 h-5 rounded-full border-none text-black">
+              {cart.length}
+            </div>
+          </button>
+        </Link>
       </div>
     </div>
   );
