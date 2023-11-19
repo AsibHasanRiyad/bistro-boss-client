@@ -13,11 +13,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 const SignUp = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const from = location.state?.from?.pathname || "/";
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   const { createUser, updateUserProfile } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -26,23 +29,29 @@ const SignUp = () => {
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    createUser(data.email, data.password)
-    .then(result =>{
-        console.log( result.user)
-        updateUserProfile(data.name, data.photoURL)
-        .then(() =>{
-            console.log('User Is created and updated');
-            reset()
+    createUser(data.email, data.password).then((result) => {
+      console.log(result.user);
+      updateUserProfile(data.name, data.photoURL).then(() => {
+        // console.log("User Is created and updated");
+        reset();
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
             Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "SignUp Successful",
-                showConfirmButton: false,
-                timer: 1500
-              });
-              navigate(from, { replace: true });
-        })
-    })
+              position: "top-end",
+              icon: "success",
+              title: "SignUp Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(from, { replace: true });
+          }
+        });
+      });
+    });
   };
   //   const [disabled, setDisabled] = useState(true);
   //   const captchaRef = useRef(null);
@@ -191,7 +200,8 @@ const SignUp = () => {
                   <Link to={"/login"}>Go to login</Link>{" "}
                 </span>
               </p>
-              <p className=" text-lg my-2">Or sign in with</p>
+              <p className=" text-lg my-3">Or sign in with</p>
+              <SocialLogin></SocialLogin>
             </div>
           </form>
         </div>

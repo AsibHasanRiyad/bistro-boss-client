@@ -9,6 +9,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -128,6 +129,7 @@ const Login = () => {
                 </span>
               </p>
               <p className=" text-lg my-2">Or sign in with</p>
+              <SocialLogin></SocialLogin>
             </div>
           </form>
         </div>

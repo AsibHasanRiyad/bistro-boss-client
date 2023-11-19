@@ -8,7 +8,7 @@ const Cart = () => {
   const total = cart.reduce((total, item) => total + item.price, 0);
   const totalPrice = total.toFixed(3);
   const axiosSecure = useAxiosSecure();
-  const [, refetch] = useCart()
+  const [, refetch] = useCart();
   const handelDelete = (id) => {
     console.log(id);
     Swal.fire({
@@ -29,7 +29,7 @@ const Cart = () => {
               text: "Your file has been deleted.",
               icon: "success",
             });
-            refetch()
+            refetch();
           }
         });
       }
@@ -61,7 +61,7 @@ const Cart = () => {
             <tbody>
               {cart.map((item, index) => (
                 <tr key={item._id}>
-                  <td>{index}</td>
+                  <td>{index + 1}</td>
                   <td>
                     <div>
                       <div className="avatar">

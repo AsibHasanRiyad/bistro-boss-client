@@ -90,7 +90,6 @@ const NavBar = () => {
               <li>
                 <a className="justify-between">
                   {user.email}
-                  <span className="badge">New</span>
                 </a>
               </li>
               <li>
@@ -158,7 +157,7 @@ const NavBar = () => {
         <ul className="flex gap-5 px-1">{navOptions}</ul>
       </div>
       <div className="navbar-end hidden lg:flex">
-        <Link to={'dashboard/cart'}>
+        <Link to={'dashboard'}>
           <button className=" border-none flex items-start">
             <FaCartShopping className=" text-4xl text-white"></FaCartShopping>
             <div className="badge text-xs w-5 h-5 rounded-full border-none text-black">
