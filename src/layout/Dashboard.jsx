@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [cart] = useCart();
   // const isAdmin = true;
   const [isAdmin] = useAdmin();
+  console.log('hello i am admin',isAdmin);
   return (
     <div className=" flex">
       <div className=" min-h-screen w-72 bg-[#D1A054] pl-8 pt-12">
@@ -49,7 +50,7 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/dashboard/manageItem"}>
+                  <NavLink to={"/dashboard/manageItems"}>
                     {" "}
                     <FaList></FaList> Manage Items
                   </NavLink>
