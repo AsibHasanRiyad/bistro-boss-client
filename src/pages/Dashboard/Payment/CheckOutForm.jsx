@@ -13,7 +13,7 @@ const CheckOutForm = () => {
   const [transactionId, setTransactionId] = useState('')
   const [clientSecret, setClientSecret] = useState('')
   const axiosSecure = useAxiosSecure()
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   const totalPrice = cart.reduce((total, item) => total + item.price,0)
   useEffect( () =>{
     if (totalPrice > 0) {
@@ -62,12 +62,25 @@ const CheckOutForm = () => {
     if (paymentIntent) {
         console.log(paymentIntent,"Payment intent");
         if (paymentIntent.status === "succeeded") {
-            setTransactionId(paymentIntent.id)
+            setTransactionId(paymentIntent?.id)
             Swal.fire({
                 title: "Congratulations!",
                 text: "Payment success.",
                 icon: "success"
               });
+            // now set payment in the database
+            const payment = {
+                email:user.email,
+                price:totalPrice,
+                transactionId:paymentIntent.id,
+                date:new Date(), //use moment js to convert utc date
+                cartId:cart.map(item => item._id),
+                menuId:cart.map(item => item.menuId),
+                status:'pending'
+            }
+            const res = await axiosSecure.post('/payments', payment);
+            console.log('payment save',res.data);
+            refetch()
         }
     }
   };
