@@ -3,11 +3,13 @@ import "../css/nav.css";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaSliders } from "react-icons/fa6";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin()
   const [cart] = useCart();
   const handelLogOut = () => {
     logOut()
@@ -56,16 +58,32 @@ const NavBar = () => {
           Order
         </NavLink>
       </li>
-      <li>
+      {
+        user && isAdmin &&  <li>
         <NavLink
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "active" : ""
           }
-          to={"/secret"}
+          to={"/dashboard/adminHome"}
         >
-          Secret
+          Dash Board
         </NavLink>
       </li>
+      }
+      {
+        user && !isAdmin &&  <li>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to={"/dashboard/userHome"}
+        >
+          Dash Board
+        </NavLink>
+      </li>
+      }
+
+     
 
       {user ? (
         <>
@@ -157,14 +175,20 @@ const NavBar = () => {
         <ul className="flex gap-5 px-1">{navOptions}</ul>
       </div>
       <div className="navbar-end hidden lg:flex">
-        <Link to={'dashboard'}>
+        {user && isAdmin && <Link to={'dashboard/allUsers'}>
+          <button className=" border-none flex items-start">
+            <FaSliders className=" text-4xl text-white"></FaSliders>
+          </button>
+        </Link> }
+        {user && !isAdmin && <Link to={'dashboard/cart'}>
           <button className=" border-none flex items-start">
             <FaCartShopping className=" text-4xl text-white"></FaCartShopping>
             <div className="badge text-xs w-5 h-5 rounded-full border-none text-black">
               {cart.length}
             </div>
           </button>
-        </Link>
+        </Link> }
+        
       </div>
     </div>
   );
